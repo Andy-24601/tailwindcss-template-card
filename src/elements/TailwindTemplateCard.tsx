@@ -10,7 +10,7 @@ import { HomeAssistant } from "custom-card-helpers";
 import _ from "lodash";
 
 console.info(
-  `%c  TailwindCSS Template Card  \n%c  Version ${CARD_VERSION}  \n%c  Star it at http://github.com/usernein/tailwindcss-template-card!`,
+  `%c  TailwindCSS Template Card  \n%c  Version ${CARD_VERSION}  \n%c  Fork: http://github.com/Andy-24601/tailwindcss-template-card`,
   "color: #2d2c35; font-weight: bold; background: #f5f6f9",
   "color: #aef3fc; font-weight: bold; background: #2d2c35",
   "color: #aef3fc; font-weight: bold; background: #2d2c35",
@@ -19,9 +19,17 @@ console.info(
 export class TailwindTemplateCard extends TailwindTemplateRenderer {
   _entitiesToWatch: string[] = [];
   _htmlContent: string = "";
+  _haCard?: HTMLElement;
+  _contentHost?: HTMLDivElement;
+  _contentShadow?: ShadowRoot;
 
   constructor() {
     super();
+    this.shadow.innerHTML = "<slot></slot>";
+  }
+
+  protected getStyleTarget() {
+    return this.ensureContentShadow();
   }
 
   static getConfigElement() {
@@ -171,14 +179,15 @@ export class TailwindTemplateCard extends TailwindTemplateRenderer {
   _renderHtmlContent() {
     this.ensureIsReadyForRender();
 
-    this._deRender();
+    const contentShadow = this.ensureContentShadow();
+    render("", contentShadow);
     render(
       <HaCard
         htmlContent={this._htmlContent}
         config={this._config}
         onEvent={(e) => this.handleActions(e)}
       />,
-      this.shadow,
+      contentShadow,
     );
 
     this.applyBindings();
@@ -194,17 +203,19 @@ export class TailwindTemplateCard extends TailwindTemplateRenderer {
     if (this._config.content === undefined) {
       throw new Error("this.config.content is invalid");
     }
-    if (!this.shadow) {
-      throw new Error("this.shadow is invalid");
+    if (!this.ensureContentShadow()) {
+      throw new Error("this.contentShadow is invalid");
     }
   }
 
   applyBindings() {
     if (!this._config?.bindings) return;
 
+    const contentShadow = this.ensureContentShadow();
+
     this._config.bindings.forEach((binding: Binding) => {
       if (!binding.selector || !binding.bind || !binding.type) return;
-      const matches = this.shadow.querySelectorAll(binding.selector);
+      const matches = contentShadow.querySelectorAll(binding.selector);
 
       matches.forEach((match) => {
         const result = this.resolveBindValue(match, binding.bind);
@@ -297,5 +308,50 @@ export class TailwindTemplateCard extends TailwindTemplateRenderer {
     } catch (e) {
       console.log("BINDING --> FAILED", bind);
     }
+  }
+
+  ensureContentShadow() {
+    if (!this._haCard || !this.contains(this._haCard)) {
+      const existingCard = this.querySelector("ha-card");
+      if (existingCard instanceof HTMLElement) {
+        this._haCard = existingCard;
+      } else {
+        const haCard = document.createElement("ha-card");
+        this.appendChild(haCard);
+        this._haCard = haCard;
+      }
+
+      this._contentHost = undefined;
+      this._contentShadow = undefined;
+    }
+
+    if (!this._contentHost || !this._haCard.contains(this._contentHost)) {
+      const existingHost = this._haCard.querySelector(
+        '[data-tailwindcss-template-card-content="true"]',
+      );
+
+      if (existingHost instanceof HTMLDivElement) {
+        this._contentHost = existingHost;
+      } else {
+        const contentHost = document.createElement("div");
+        contentHost.setAttribute("data-tailwindcss-template-card-content", "true");
+        this._haCard.replaceChildren(contentHost);
+        this._contentHost = contentHost;
+      }
+
+      this._contentShadow = undefined;
+    }
+
+    if (this._contentShadow?.host !== this._contentHost) {
+      this._contentShadow = undefined;
+    }
+
+    if (!this._contentShadow) {
+      this._contentShadow =
+        this._contentHost.shadowRoot ??
+        this._contentHost.attachShadow({ mode: "open" });
+    }
+
+    return this._contentShadow;
   }
 }

@@ -8,6 +8,6 @@ customElements.define('tailwindcss-template-card-config', TailwindTemplateCardCo
 window.customCards.push({
   type: 'tailwindcss-template-card',
   name: 'TailwindCSS Template Card',
-  description: 'Write HTML with TailwindCSS styles',
+  description: 'Write HTML with TailwindCSS styles with card_mod-compatible rendering',
   preview: true
 })
