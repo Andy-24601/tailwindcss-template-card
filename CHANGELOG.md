@@ -2,6 +2,13 @@
 
 Changelog of tailwindcss-template-card.
 
+## v3.1.3 (2026-04-19)
+
+### Other changes
+
+- track built `dist` assets in the repository so HACS can install directly from the maintained fork
+- prepare a versioned release after the `card_mod` compatibility merge
+
 ## v3.1.2 (2026-04-19)
 
 ### Features
