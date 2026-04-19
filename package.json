@@ -1,8 +1,17 @@
 {
   "name": "tailwindcss-template-card",
   "private": true,
-  "version": "3.1.1",
+  "version": "3.1.2",
+  "description": "A maintained Home Assistant fork of TailwindCSS Template Card with card_mod compatibility fixes.",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andy-24601/tailwindcss-template-card.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Andy-24601/tailwindcss-template-card/issues"
+  },
+  "homepage": "https://github.com/Andy-24601/tailwindcss-template-card#readme",
   "scripts": {
     "dev": "vite",
     "prebuild": "npm run lint",

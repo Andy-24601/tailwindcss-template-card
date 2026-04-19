@@ -1,11 +1,20 @@
 # TailwindCSS Template Card for Home Assistant
 
-![GitHub](https://img.shields.io/github/license/usernein/tailwindcss-template-card)
-![GitHub stars](https://img.shields.io/github/stars/usernein/tailwindcss-template-card)
-![GitHub issues](https://img.shields.io/github/issues/usernein/tailwindcss-template-card)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/usernein/tailwindcss-template-card)
+![GitHub](https://img.shields.io/github/license/Andy-24601/tailwindcss-template-card)
+![GitHub stars](https://img.shields.io/github/stars/Andy-24601/tailwindcss-template-card)
+![GitHub issues](https://img.shields.io/github/issues/Andy-24601/tailwindcss-template-card)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/Andy-24601/tailwindcss-template-card)
 
 The TailwindCSS Template Card is a custom card for Home Assistant that allows you to write HTML code using TailwindCSS classes and render it beautifully in the Home Assistant dashboard. This card provides flexibility in designing custom interfaces within Home Assistant, allowing you to create visually appealing and interactive elements.
+
+This repository is the maintained fork at [Andy-24601/tailwindcss-template-card](https://github.com/Andy-24601/tailwindcss-template-card). It keeps the original `custom:tailwindcss-template-card` card type for drop-in compatibility while carrying fixes and maintenance work for current Home Assistant setups.
+
+## Fork Notes
+
+- Keeps the same Lovelace card type: `custom:tailwindcss-template-card`
+- Keeps the same frontend module filename: `tailwindcss-template-card.js`
+- Adds `card_mod` compatibility by rendering the outer `ha-card` in light DOM
+- Intended to be a drop-in replacement for the upstream card during testing or long-term use
 
 ![card_config](https://github.com/usernein/tailwindcss-template-card/assets/29507335/1982f343-62d9-4b5e-9b71-16889d4058b4)
 
@@ -28,7 +37,7 @@ https://github.com/usernein/tailwindcss-template-card/assets/29507335/c0c1e086-f
 
 ### With HACS
 
-Set `https://github.com/usernein/tailwindcss-template-card` as a custom repository in HACS. Now you should receive the TailwindCSS Template Card as new plugin to install.
+Set `https://github.com/Andy-24601/tailwindcss-template-card` as a custom repository in HACS. Now you should receive the TailwindCSS Template Card as a custom plugin to install.
 
 ### Manually
 
@@ -154,7 +163,7 @@ I would like to extend my sincere gratitude to the following projects, libraries
 
 ## Contributing
 
-Contributions to the TailwindCSS Template Card for Home Assistant are welcome! If you have any ideas, suggestions, or bug reports, please open an issue on the [GitHub repository](https://github.com/usernein/tailwindcss-template-card/issues). Pull requests are also encouraged.
+Contributions to the TailwindCSS Template Card for Home Assistant are welcome. If you have ideas, suggestions, or bug reports, please open an issue on the [fork repository](https://github.com/Andy-24601/tailwindcss-template-card/issues). Pull requests are also encouraged.
 
 Before making significant changes, please discuss them with the repository maintainers to ensure they align with the project's goals and direction.
 

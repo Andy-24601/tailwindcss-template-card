@@ -2,6 +2,16 @@
 
 Changelog of tailwindcss-template-card.
 
+## v3.1.2 (2026-04-19)
+
+### Features
+
+- add `card_mod` compatibility by moving the outer `ha-card` into light DOM while keeping Tailwind-rendered content isolated
+
+### Other changes
+
+- update fork metadata, repository links, and HACS installation docs for `Andy-24601/tailwindcss-template-card`
+
 ## v2.1.0-1 (2023-06-26)
 
 ### Features

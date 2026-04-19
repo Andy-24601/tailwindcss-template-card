@@ -30,6 +30,10 @@ export abstract class TailwindTemplateRenderer extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' })
   }
 
+  protected getStyleTarget () {
+    return this.shadow
+  }
+
   setConfig (config: Partial<ConfigState>) {
     const inSetup = Object.keys(this._oldConfig).length === 0
     const pluginsConfigHasChanged = config.plugins !== this._oldConfig.plugins
@@ -42,13 +46,16 @@ export abstract class TailwindTemplateRenderer extends HTMLElement {
       dispatchCardEvent(CardEvents.CONFIG_SETUP, { config })
 
     if (pluginsConfigHasChanged || inSetup) {
-      this.injectStylesheets(this._config)
+      void this.injectStylesheets(this._config, this.getStyleTarget())
     }
 
     if (!this._oldConfig || this._rerender_after_set_config) this._render(true)
   }
 
-  async injectStylesheets ({ plugins }: ConfigState) {
+  async injectStylesheets (
+    { plugins }: ConfigState,
+    target: ShadowRoot = this.getStyleTarget()
+  ) {
     const adoptedStyleSheets = [] as CSSStyleSheet[]
 
     const generatedSheet = cssom(new CSSStyleSheet())
@@ -99,8 +106,8 @@ export abstract class TailwindTemplateRenderer extends HTMLElement {
 
     adoptedStyleSheets.push(sheet.target)
 
-    this.shadow.adoptedStyleSheets = adoptedStyleSheets
-    observe(tw, this.shadow)
+    target.adoptedStyleSheets = adoptedStyleSheets
+    observe(tw, target)
   }
 
   public set hass (hass: HomeAssistant) {
